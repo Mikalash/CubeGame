@@ -1,6 +1,6 @@
 #include <SFML/Graphics.hpp>
 
-class tetrahed
+struct tetrahed
 {
     int x[4];
     int y[4];
@@ -14,25 +14,34 @@ class drawer
 {
     private:
         sf::RenderWindow *window;
+
+        int color[7][3] = {
+        {255, 255, 255},//0 - white
+        {255, 0,   0},  //1 - red
+        {255, 0,   255},//2 - fuchsia
+        {0,   255, 0},  //3 - lime
+        {255, 255, 0},  //4 - yellow
+        {0,   0,   255},//5 - blue
+        {0,   255, 255},//6 - aqua
+        };
     public:
         drawer(sf::RenderWindow *in_window)
         {
             window = in_window;
         }
 
-        void draw_trh(struct tetrahed* trh, int color, int bright)
+        void draw_trh(struct tetrahed* trh, int clr, float bright)
         {
             sort_trh(trh);
 
             sf::VertexArray triangle(sf::Triangles, 3);
 
-            triangle[0].color = sf::Color::Blue;
-            triangle[1].color = sf::Color::Blue;
-            triangle[2].color = sf::Color(0, 255, 0, 256);
+            sf::Color sfml_clr(color[clr][0] * bright, color[clr][1] * bright, color[clr][2] * bright);
+            for (int i = 0; i < 3; i++)
+                triangle[i].color = sfml_clr;
 
-            triangle[0].position = sf::Vector2f(trh->x[0], trh->y[0]);
-            triangle[1].position = sf::Vector2f(trh->x[1], trh->y[1]);
-            triangle[2].position = sf::Vector2f(trh->x[2], trh->y[2]);
+            for (int i = 0; i < 3; i++)
+                triangle[i].position = sf::Vector2f(trh->x[i], trh->y[i]);
             window->draw(triangle);
 
             triangle[0].position = sf::Vector2f(trh->x[3], trh->y[3]);
