@@ -13,7 +13,7 @@ class player
         int color = 7;
 
         int scr_len;
-
+        int lifes = 3;
     public:
         player(int in_scr_len)
         {
@@ -34,6 +34,7 @@ class player
             trh.x[3] = x + len / 2;
             trh.y[3] = y - len / 2;
             drw->draw_trh(&trh, color, 1);
+            drw->draw_lifes(x - len / 2, y - len / 2, lifes);
         }
 
         void protect_cord()
@@ -73,13 +74,30 @@ class player
             int p_len = len / 2 - 1;
 
             if (mask[mask_index][(y - p_len)/i_len][(x - p_len)/i_len] == 1)
+            {
+                lifes--;
                 return 1;
+            }
             if (mask[mask_index][(y - p_len)/i_len][(x + p_len)/i_len] == 1)
+            {
+                lifes--;
                 return 1;
+            }
             if (mask[mask_index][(y + p_len)/i_len][(x + p_len)/i_len] == 1)
+            {
+                lifes--;
                 return 1;
+            }
             if (mask[mask_index][(y + p_len)/i_len][(x - p_len)/i_len] == 1)
+            {
+                lifes--;
                 return 1;
+            }
             return 0;
+        }
+
+        int get_lifes()
+        {
+            return lifes;
         }
 };

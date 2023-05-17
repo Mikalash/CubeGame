@@ -29,10 +29,21 @@ class drawer
         {0,   255, 255},//6 - aqua
         {0,   128, 128} //7 - teal
         };
+
+        sf::Texture lifes_0;
+        sf::Texture lifes_1;
+        sf::Texture lifes_2;
+        sf::Texture lifes_3;
+        sf::Sprite lifes;
     public:
         drawer(sf::RenderWindow *in_window)
         {
             window = in_window;
+
+            lifes_0.loadFromFile("lifes/0.png");
+            lifes_1.loadFromFile("lifes/1.png");
+            lifes_2.loadFromFile("lifes/2.png");
+            lifes_3.loadFromFile("lifes/3.png");
         }
 
         void draw_trh(struct tetrahed* trh, int clr, float bright)
@@ -52,6 +63,27 @@ class drawer
 
             triangle[0].position = sf::Vector2f(trh->x[3], trh->y[3]);
             window->draw(triangle);
+        }
+
+        void draw_lifes(int x, int y, int n_lifes)
+        {
+            lifes.setOrigin(-x, -y);
+            switch (n_lifes)
+            {
+                case (0):
+                    lifes.setTexture(lifes_0);
+                    break;
+                case (1):
+                    lifes.setTexture(lifes_1);
+                    break;
+                case (2):
+                    lifes.setTexture(lifes_2);
+                    break;
+                case (3):
+                    lifes.setTexture(lifes_3);
+                    break;
+            }
+            window->draw(lifes);
         }
 };
 
