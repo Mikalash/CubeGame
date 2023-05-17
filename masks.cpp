@@ -12,7 +12,7 @@ int gen_index()
         first_index = 0;
     }
 
-    if (rand() % 3 == 2 && mask_0 >= 3)
+    if (rand() % 2 == 1 && mask_0 >= 3)
     {
         mask_0 = 0;
         return (rand() % (N_MASKS - 1) + 1);
@@ -24,7 +24,7 @@ int gen_index()
     }
 }
 
-int mask[10][6][6] = {
+int mask[N_MASKS][6][6] = {
     {//0
     {0, 0, 0, 0, 0, 0},
     {0, 0, 0, 0, 0, 0},

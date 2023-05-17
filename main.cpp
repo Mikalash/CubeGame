@@ -7,13 +7,14 @@
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(600, 600), "SFML works!");
-    window.setVerticalSyncEnabled(true);
+    //window.setVerticalSyncEnabled(true);
 
     class drawer drw(&window);
 
-    class segment sgm[14];
-    for (int i = 0; i < 14; i++)
-        sgm[i].sg_fill(i * 200, 600, i % 7, 0);
+    const int n_segments = 14;
+    class segment sgm[n_segments];
+    for (int i = 0; i < n_segments; i++)
+        sgm[i].sg_fill(i, 600, i % 7, 0);
 
 
     while (window.isOpen())
@@ -27,20 +28,20 @@ int main()
 
         window.clear();
 
-        sf::Clock clock;
-        while (clock.getElapsedTime().asMilliseconds() < 10);
-
-        for (int i = 13; i >= 0; i--)
+        for (int i = n_segments - 1; i >= 0; i--)
         {
             sgm[i].draw(&drw);
-            if (sgm[i].go_ahead(14))
+            if (sgm[i].go_ahead(n_segments))
             {
-                sgm[0].sg_resp(gen_index());
-                for (int j = 0; j < 13; j++)
+                for (int j = 0; j < n_segments - 1; j++)
                     std::swap(sgm[j], sgm[j + 1]);
             }
         }
+
         window.display();
+
+        sf::Clock clock;
+        while (clock.getElapsedTime().asMilliseconds() < 10);
     }
 
     return 0;

@@ -1,13 +1,13 @@
 #include "masks.cpp"
 #include "drawer.cpp"
-#include <math.h>
 
 class segment
 {
     private:
         int z;//z cord of sigment
-        int color = 0;//max z cord of sigment
+        int color = 0;
         int z_len = 200;//z_len of sigment
+        int z_speed = 5;
 
         int z_view = 800;//camera cord * -1
         int scr_len;
@@ -17,16 +17,11 @@ class segment
         segment()
         {}
 
-        void sg_fill(int in_z, int in_scr_len, int in_color, int in_mask_index)
+        void sg_fill(int number, int in_scr_len, int in_color, int in_mask_index)
         {
-            z = in_z;
+            z = number * z_len;
             scr_len = in_scr_len;
             color = in_color;
-            mask_index = in_mask_index;
-        }
-        void sg_resp(int in_mask_index)
-        {
-            z = 2595;
             mask_index = in_mask_index;
         }
 
@@ -78,7 +73,7 @@ class segment
                         trh.y[2] = get_cord_scr((i + 1) * scr_len / 6, z + z_len);
                         trh.x[3] = get_cord_scr((j + 1) * scr_len / 6, z + z_len);
                         trh.y[3] = get_cord_scr(i * scr_len / 6, z + z_len);
-                        drw->draw_trh(&trh, color, 1 * (1 - (z + z_len) / 2600.0));
+                        drw->draw_trh(&trh, color, 1 * (1 - (z + z_len) / 2800.0));
                         //2 / (1 + exp(z / 500))
                     }
         }
@@ -91,10 +86,11 @@ class segment
 
         bool go_ahead(int number_of_segments)
         {
-            z -= 5;
+            z -= z_speed;
             if (z < -z_len)
             {
-                z = (number_of_segments - 1) * z_len;
+                z = (number_of_segments - 1) * z_len  - z_speed;
+                mask_index = gen_index();
                 return 1;
             }
 

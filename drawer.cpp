@@ -33,6 +33,7 @@ class drawer
         void draw_trh(struct tetrahed* trh, int clr, float bright)
         {
             sort_trh(trh);
+            clr = clr % 7;
 
             sf::VertexArray triangle(sf::Triangles, 3);
 
@@ -51,7 +52,7 @@ class drawer
 
 
 
-void fill_trh(struct tetrahed* trh, int* in_x, int* in_y)
+void fill_trh(struct tetrahed *trh, int* in_x, int* in_y)
 {
     for (int i = 0; i < 4; i++)
     {
