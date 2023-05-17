@@ -2,7 +2,9 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 
+#include "drawer.cpp"
 #include "segment.cpp"
+#include "player.cpp"
 
 int main()
 {
@@ -15,6 +17,8 @@ int main()
     class segment sgm[n_segments];
     for (int i = 0; i < n_segments; i++)
         sgm[i].sg_fill(i, 600, i % 7, 0);
+
+    class player plr(600);
 
 
     while (window.isOpen())
@@ -37,6 +41,8 @@ int main()
                     std::swap(sgm[j], sgm[j + 1]);
             }
         }
+
+        plr.draw(&drw);
 
         window.display();
 

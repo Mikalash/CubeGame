@@ -1,4 +1,6 @@
 #include <SFML/Graphics.hpp>
+#ifndef DRW_INCLUDE
+#define DRW_INCLUDE
 
 struct tetrahed
 {
@@ -15,7 +17,8 @@ class drawer
     private:
         sf::RenderWindow *window;
 
-        int color[7][3] = {
+        int n_color = 8;
+        int color[8][3] = {
         {255, 255, 255},//0 - white
         {255, 0,   0},  //1 - red
         {255, 0,   255},//2 - fuchsia
@@ -23,6 +26,7 @@ class drawer
         {255, 255, 0},  //4 - yellow
         {0,   0,   255},//5 - blue
         {0,   255, 255},//6 - aqua
+        {0,   128, 128} //7 - teal
         };
     public:
         drawer(sf::RenderWindow *in_window)
@@ -33,7 +37,7 @@ class drawer
         void draw_trh(struct tetrahed* trh, int clr, float bright)
         {
             sort_trh(trh);
-            clr = clr % 7;
+            clr = clr % n_color;
 
             sf::VertexArray triangle(sf::Triangles, 3);
 
@@ -78,3 +82,5 @@ void sort_trh(struct tetrahed* trh)
                 std::swap(trh->y[2*i], trh->y[2*i + 1]);
             }
 }
+
+#endif
