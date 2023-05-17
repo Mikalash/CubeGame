@@ -9,6 +9,7 @@ class player
         int y;
         int len = 80;
         int speed = 10;
+        int bonus = 0;
         int color = 7;
 
         int scr_len;
@@ -46,19 +47,24 @@ class player
             switch (a)
             {
                 case 'w':
-                    y -= speed;
+                    y -= speed + bonus;
                     break;
                 case 'd':
-                    x += speed;
+                    x += speed + bonus;
                     break;
                 case 's':
-                    y += speed;
+                    y += speed + bonus;
                     break;
                 case 'a':
-                    x -= speed;
+                    x -= speed + bonus;
                     break;
             }
             protect_cord();
+        }
+
+        void calc_bonus(float score)
+        {
+            bonus = score / 0.1;
         }
 
         bool is_crash(int mask_index)

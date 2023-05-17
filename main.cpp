@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <math.h>
 #include <SFML/Graphics.hpp>
 
 #include "drawer.cpp"
@@ -8,7 +9,8 @@
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(600, 600), "SFML works!");
+    float score = 0.25;
+    sf::RenderWindow window(sf::VideoMode(600, 600), "CUB(A)Egame");
     //window.setVerticalSyncEnabled(true);
 
     class drawer drw(&window);
@@ -68,12 +70,14 @@ int main()
         }
 
         plr.draw(&drw);
+        plr.calc_bonus(score);
 
         window.display();
 
         sf::Clock clock;
-        while (clock.getElapsedTime().asMilliseconds() < 10);
-        //break;
+        while (clock.getElapsedTime().asMilliseconds() < (int) (2.5 / score));
+        score += 0.0002 * score * score;
+        std::cout << score << "\n";
     }
 
     return 0;
