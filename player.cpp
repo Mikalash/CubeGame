@@ -1,4 +1,5 @@
 #include "drawer.cpp"
+#include "masks.cpp"
 #include "math.h"
 
 class player
@@ -7,7 +8,7 @@ class player
         int x;
         int y;
         int len = 80;
-        int speed = 5;
+        int speed = 10;
         int color = 7;
 
         int scr_len;
@@ -52,9 +53,27 @@ class player
                     break;
                 case 's':
                     y += speed;
+                    break;
                 case 'a':
                     x -= speed;
+                    break;
             }
             protect_cord();
+        }
+
+        bool is_crash(int mask_index)
+        {
+            int i_len = scr_len / L_MASKS;
+            int p_len = len / 2 - 1;
+
+            if (mask[mask_index][(y - p_len)/i_len][(x - p_len)/i_len] == 1)
+                return 1;
+            if (mask[mask_index][(y - p_len)/i_len][(x + p_len)/i_len] == 1)
+                return 1;
+            if (mask[mask_index][(y + p_len)/i_len][(x + p_len)/i_len] == 1)
+                return 1;
+            if (mask[mask_index][(y + p_len)/i_len][(x - p_len)/i_len] == 1)
+                return 1;
+            return 0;
         }
 };

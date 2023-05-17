@@ -28,6 +28,24 @@ int main()
         {
             if (event.type == sf::Event::Closed)
                 window.close();
+            if (event.type == sf::Event::KeyPressed)
+            {
+                switch(event.key.code)
+                {
+                    case (sf::Keyboard::W):
+                        plr.moved('w');
+                        break;
+                    case (sf::Keyboard::D):
+                        plr.moved('d');
+                        break;
+                    case (sf::Keyboard::S):
+                        plr.moved('s');
+                        break;
+                    case (sf::Keyboard::A):
+                        plr.moved('a');
+                        break;
+                }
+            }
         }
 
         window.clear();
@@ -35,8 +53,15 @@ int main()
         for (int i = n_segments - 1; i >= 0; i--)
         {
             sgm[i].draw(&drw);
-            if (sgm[i].go_ahead(n_segments))
+            if (sgm[i].go_ahead())
             {
+                if (plr.is_crash(sgm[i].get_mask_index()))
+                {
+                    sf::Clock clock;
+                    while (clock.getElapsedTime().asSeconds() < 10);
+                }
+
+                sgm[i].respawn(n_segments);
                 for (int j = 0; j < n_segments - 1; j++)
                     std::swap(sgm[j], sgm[j + 1]);
             }
@@ -48,6 +73,7 @@ int main()
 
         sf::Clock clock;
         while (clock.getElapsedTime().asMilliseconds() < 10);
+        //break;
     }
 
     return 0;

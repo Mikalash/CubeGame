@@ -1,6 +1,10 @@
+#ifndef MSK_INCLUDE
+#define MSK_INCLUDE
+
 #include <iostream>
 
 const int N_MASKS = 10;
+const int L_MASKS = 6;
 bool first_index = 1;
 int mask_0 = 2;
 
@@ -24,7 +28,7 @@ int gen_index()
     }
 }
 
-int mask[N_MASKS][6][6] = {
+const int mask[N_MASKS][L_MASKS][L_MASKS] = {
     {//0
     {0, 0, 0, 0, 0, 0},
     {0, 0, 0, 0, 0, 0},
@@ -96,3 +100,5 @@ int mask[N_MASKS][6][6] = {
     {0, 0, 1, 0, 0, 0},
     {0, 0, 1, 0, 0, 0}}
 };
+
+#endif

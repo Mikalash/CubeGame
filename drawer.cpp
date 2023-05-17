@@ -1,6 +1,7 @@
-#include <SFML/Graphics.hpp>
 #ifndef DRW_INCLUDE
 #define DRW_INCLUDE
+
+#include <SFML/Graphics.hpp>
 
 struct tetrahed
 {

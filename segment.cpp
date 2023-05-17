@@ -65,14 +65,14 @@ class segment
                 for (int j = 0; j < 6; j++)
                     if (mask[mask_index][i][j] == 1)
                     {
-                        trh.x[0] = get_cord_scr(j * scr_len / 6, z + z_len);
-                        trh.y[0] = get_cord_scr(i * scr_len / 6, z + z_len);
-                        trh.x[1] = get_cord_scr(j * scr_len / 6, z + z_len);
-                        trh.y[1] = get_cord_scr((i + 1) * scr_len / 6, z + z_len);
-                        trh.x[2] = get_cord_scr((j + 1) * scr_len / 6, z + z_len);
-                        trh.y[2] = get_cord_scr((i + 1) * scr_len / 6, z + z_len);
-                        trh.x[3] = get_cord_scr((j + 1) * scr_len / 6, z + z_len);
-                        trh.y[3] = get_cord_scr(i * scr_len / 6, z + z_len);
+                        trh.x[0] = get_cord_scr(j * scr_len / L_MASKS, z + z_len);
+                        trh.y[0] = get_cord_scr(i * scr_len / L_MASKS, z + z_len);
+                        trh.x[1] = get_cord_scr(j * scr_len / L_MASKS, z + z_len);
+                        trh.y[1] = get_cord_scr((i + 1) * scr_len / L_MASKS, z + z_len);
+                        trh.x[2] = get_cord_scr((j + 1) * scr_len / L_MASKS, z + z_len);
+                        trh.y[2] = get_cord_scr((i + 1) * scr_len / L_MASKS, z + z_len);
+                        trh.x[3] = get_cord_scr((j + 1) * scr_len / L_MASKS, z + z_len);
+                        trh.y[3] = get_cord_scr(i * scr_len / L_MASKS, z + z_len);
                         drw->draw_trh(&trh, color, 1 * (1 - (z + z_len) / 2800.0));
                         //2 / (1 + exp(z / 500))
                     }
@@ -84,17 +84,22 @@ class segment
             draw_srf(drw);
         }
 
-        bool go_ahead(int number_of_segments)
+        bool go_ahead()
         {
             z -= z_speed;
             if (z < -z_len)
-            {
-                z = (number_of_segments - 1) * z_len  - z_speed;
-                mask_index = gen_index();
                 return 1;
-            }
-
             return 0;
         }
 
+        void respawn(int number_of_segments)
+        {
+            z = (number_of_segments - 1) * z_len  - z_speed;
+            mask_index = gen_index();
+        }
+
+        int get_mask_index()
+        {
+            return mask_index;
+        }
 };
