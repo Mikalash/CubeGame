@@ -13,7 +13,7 @@ int main()
 
     class segment sgm[14];
     for (int i = 0; i < 14; i++)
-        sgm[i].sg_fill(i * 200, 600, i % 7, rand() % 8);
+        sgm[i].sg_fill(i * 200, 600, i % 7, 0);
 
 
     while (window.isOpen())
@@ -35,7 +35,7 @@ int main()
             sgm[i].draw(&drw);
             if (sgm[i].go_ahead(14))
             {
-                sgm[0].sg_resp(rand() % 8);
+                sgm[0].sg_resp(gen_index());
                 for (int j = 0; j < 13; j++)
                     std::swap(sgm[j], sgm[j + 1]);
             }
