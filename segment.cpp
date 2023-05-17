@@ -8,8 +8,8 @@ class segment
         int color = 0;
         int z_len = 200;//z_len of sigment
         int z_speed = 5;
+        int z_view = 400;//camera cord * -1
 
-        int z_view = 800;//camera cord * -1
         int scr_len;
         int mask_index;
 

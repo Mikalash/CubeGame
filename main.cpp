@@ -1,27 +1,33 @@
 #include <iostream>
 #include <vector>
 #include <math.h>
+#include <string.h>
 #include <SFML/Graphics.hpp>
 
-#include "drawer.cpp"
-#include "segment.cpp"
-#include "player.cpp"
+#include "game_circle.cpp"
 
 int main()
 {
-    float score = 0.25;
     sf::RenderWindow window(sf::VideoMode(600, 600), "CUB(A)Egame");
     //window.setVerticalSyncEnabled(true);
 
-    class drawer drw(&window);
+    char fraze_1[1024] = "Use W A S D\n to control\n the square";
+    char fraze_2[1024] = "Press any botton\n to start";
 
-    const int n_segments = 14;
-    class segment sgm[n_segments];
-    for (int i = 0; i < n_segments; i++)
-        sgm[i].sg_fill(i, 600, i % 7, 0);
+    sf::Font font;
+    font.loadFromFile("font/myf.ttf");
+    sf::Text text;
+    text.setFont(font);
+    text.setCharacterSize(60);
+    text.setColor(sf::Color(0, 200, 200));
 
-    class player plr(600);
-
+    text.setString(fraze_1);
+    text.setOrigin(300 - (int)strlen(fraze_1) * 25 / 2, -100);
+    window.draw(text);
+    text.setString(fraze_2);
+    text.setOrigin(300 - (int)strlen(fraze_2) * 25 / 2, -400);
+    window.draw(text);
+    window.display();
 
     while (window.isOpen())
     {
@@ -32,52 +38,11 @@ int main()
                 window.close();
             if (event.type == sf::Event::KeyPressed)
             {
-                switch(event.key.code)
-                {
-                    case (sf::Keyboard::W):
-                        plr.moved('w');
-                        break;
-                    case (sf::Keyboard::D):
-                        plr.moved('d');
-                        break;
-                    case (sf::Keyboard::S):
-                        plr.moved('s');
-                        break;
-                    case (sf::Keyboard::A):
-                        plr.moved('a');
-                        break;
-                }
+                game_circle(&window, 600);
+                window.draw(text);
+                window.display();
             }
         }
-
-        window.clear();
-
-        for (int i = n_segments - 1; i >= 0; i--)
-        {
-            sgm[i].draw(&drw);
-            if (sgm[i].go_ahead())
-            {
-                if (plr.is_crash(sgm[i].get_mask_index()))
-                {
-                    sf::Clock clock;
-                    while (clock.getElapsedTime().asSeconds() < 10);
-                }
-
-                sgm[i].respawn(n_segments);
-                for (int j = 0; j < n_segments - 1; j++)
-                    std::swap(sgm[j], sgm[j + 1]);
-            }
-        }
-
-        plr.draw(&drw);
-        plr.calc_bonus(score);
-
-        window.display();
-
-        sf::Clock clock;
-        while (clock.getElapsedTime().asMilliseconds() < (int) (2.5 / score));
-        score += 0.0002 * score * score;
-        std::cout << score << "\n";
     }
 
     return 0;
